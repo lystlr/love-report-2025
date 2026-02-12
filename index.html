@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>松和灿2025年恋爱报告</title>
+    <style>
+        /* ========== 核心：开场动画样式（每次新开网址运行，返回不运行） ========== */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #0a0a10; /* 太空深灰色 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease;
+            opacity: 1;
+        }
+        .splash-text {
+            font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: #ffffff;
+            opacity: 0;
+            position: absolute;
+            transition: opacity 1s ease;
+        }
+        .splash-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ========== 新增：黑胶唱片样式 + 旋转动画 ========== */
+        .vinyl-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        .vinyl-record {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #111;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+            animation: rotate 10s linear infinite;
+            box-shadow: 0 0 15px rgba(232, 63, 91, 0.2);
+        }
+        /* 黑胶唱片纹理 */
+        .vinyl-record::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-radial-gradient(
+                circle at center,
+                #111 0%,
+                #111 5%,
+                #222 5.5%,
+                #111 6%
+            );
+        }
+        /* 黑胶唱片中心 */
+        .vinyl-record::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #E83F5B;
+            box-shadow: 0 0 8px rgba(232, 63, 91, 0.8);
+        }
+        /* 旋转动画 */
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .vinyl-text {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-size: 18px;
+            color: #E83F5B;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(232, 63, 91, 0.3);
+        }
+        /* 响应式适配黑胶唱片 */
+        @media (max-width: 480px) {
+            .vinyl-record {
+                width: 60px;
+                height: 60px;
+            }
+            .vinyl-text {
+                font-size: 16px;
+            }
+        }
+
+        /* ========== 网易云2025年度报告核心风格 + 太空灰色背景 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+        body {
+            background-color: #0a0a10; /* 太空灰色主色 */
+            background-image: url("data:image/png;base64,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");
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+        .report-container {
+            width: 100%;
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+        .top-decor {
+            height: 140px;
+            background: linear-gradient(135deg, #E83F5B 0%, #FF6B81 100%);
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(232, 63, 91, 0.3);
+        }
+        .top-decor::after {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        /* 新增顶部主标题样式 */
+        .new-main-title {
+            text-align: center;
+            padding: 0 10px 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(232, 63, 91, 0.2);
+        }
+        .new-main-title h2 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #E83F5B;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+            text-shadow: 0 0 12px rgba(232, 63, 91, 0.3);
+        }
+        .new-main-title .desc-text {
+            font-size: 10.5pt; /* 五号字体 */
+            color: #b3b3b3;
+            line-height: 1.8;
+            text-align: justify;
+            padding: 0 5px;
+        }
+        .main-title {
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+        }
+        .main-title h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #E83F5B;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .main-title p {
+            font-size: 16px;
+            color: #b3b3b3;
+            opacity: 0.9;
+        }
+        /* 轮播L样式（适配17张图片） */
+        .carousel-container {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .carousel-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .carousel-item {
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+        }
+        .carousel-item a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+        }
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 保证图片铺满容器，裁剪多余部分 */
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0,0,0,0.6);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.3s;
+        }
+        .carousel-btn:hover {
+            background-color: #E83F5B;
+        }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+        .carousel-indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-width: 90%;
+            justify-content: center;
+        }
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.3);
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .indicator.active {
+            background-color: #E83F5B;
+            box-shadow: 0 0 8px rgba(232, 63, 91, 0.6);
+        }
+        /* 数据卡片样式 */
+        .data-card {
+            background: linear-gradient(180deg, #242424 0%, #1F1F1F 100%);
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .data-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #E83F5B, #FF6B81);
+            box-shadow: 0 0 10px rgba(232, 63, 91, 0.5);
+        }
+        .core-data { text-align: center; }
+        .core-data .num {
+            font-size: 48px;
+            font-weight: 800;
+            color: #E83F5B;
+            margin: 15px 0;
+            text-shadow: 0 0 10px rgba(232, 63, 91, 0.2);
+        }
+        .core-data .desc {
+            font-size: 18px;
+            color: #b3b3b3;
+        }
+        .multi-data {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .data-item {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+        }
+        .data-item .item-title {
+            font-size: 14px;
+            color: #b3b3b3;
+            margin-bottom: 8px;
+        }
+        .data-item .item-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .data-item .item-tag {
+            display: inline-block;
+            background-color: rgba(232, 63, 91, 0.2);
+            color: #E83F5B;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        /* 功能栏标题样式 */
+        .func-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #E83F5B;
+            margin: 40px 0 20px;
+            letter-spacing: 1px;
+        }
+        /* 新增：功能栏T样式（年度词语） */
+        .year-word-card {
+            background: linear-gradient(180deg, #242424 0%, #1F1F1F 100%);
+            border-radius: 20px;
+            padding: 40px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+        .year-word-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #E83F5B, #FF6B81);
+            box-shadow: 0 0 10px rgba(232, 63, 91, 0.5);
+        }
+        .year-word-title {
+            font-size: 18px;
+            color: #b3b3b3;
+            margin-bottom: 20px;
+        }
+        .year-word-main {
+            font-size: 64px;
+            font-weight: 800;
+            color: #E83F5B;
+            letter-spacing: 8px;
+            text-shadow: 0 0 15px rgba(232, 63, 91, 0.4);
+        }
+        /* 新增：功能栏P/M图片网格样式（适配iPhone15尺寸） */
+        .img-grid-container {
+            width: 100%;
+            margin: 10px 0 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .img-grid-item {
+            /* iPhone15尺寸比例：393x852，宽高比≈0.46 */
+            aspect-ratio: 393 / 852;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .img-grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* 新增：功能栏D1/D2左图右文本样式 */
+        .growth-section {
+            background: linear-gradient(180deg, #242424 0%, #1F1F1F 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .growth-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #E83F5B, #FF6B81);
+            box-shadow: 0 0 10px rgba(232, 63, 91, 0.5);
+        }
+        .growth-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .growth-item:last-child {
+            margin-bottom: 0;
+        }
+        .growth-img {
+            flex: 0 0 120px;
+            height: 120px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .growth-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .growth-text {
+            flex: 1;
+        }
+        .growth-text h3 {
+            font-size: 18px;
+            color: #E83F5B;
+            margin-bottom: 8px;
+        }
+        .growth-text p {
+            font-size: 14px;
+            color: #b3b3b3;
+            line-height: 1.6;
+        }
+        /* 功能栏O修改后样式（仅保留图片） */
+        .map-container {
+            width: 100%;
+            height: 500px;
+            margin: 20px 0 40px;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #242424 0%, #1F1F1F 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .map-replace-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* 热词云容器样式 */
+        .word-cloud-container {
+            width: 100%;
+            min-height: 400px;
+            margin: 20px 0;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #242424 0%, #1F1F1F 100%);
+            padding: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .word-cloud-img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            filter: drop-shadow(0 0 2px rgba(232, 63, 91, 0.2));
+            object-fit: contain;
+        }
+        /* 新增：功能栏Q样式（和其他功能栏保持一致） */
+        .message-section {
+            background: linear-gradient(180deg, #242424 0%, #1F1F1F 100%);
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .message-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #E83F5B, #FF6B81);
+            box-shadow: 0 0 10px rgba(232, 63, 91, 0.5);
+        }
+        .message-content {
+            font-size: 16px;
+            color: #b3b3b3;
+            line-height: 2;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .message-content strong {
+            color: #E83F5B;
+            font-weight: 500;
+        }
+        /* 页脚样式 */
+        .footer {
+            text-align: center;
+            padding: 40px 0 20px;
+            color: #666;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        /* 响应式适配 */
+        @media (max-width: 480px) {
+            .main-title h1 { font-size: 26px; }
+            .core-data .num { font-size: 36px; }
+            .carousel-container { height: 200px; }
+            .data-card { padding: 20px 15px; }
+            .map-container { height: 350px; }
+            .splash-text { font-size: 20px; }
+            .new-main-title h2 { font-size: 28px; }
+            .new-main-title .desc-text { font-size: 9pt; }
+            .word-cloud-container {
+                min-height: 300px;
+                padding: 15px;
+            }
+            .word-cloud-img {
+                max-width: 100%;
+            }
+            .carousel-indicators {
+                gap: 6px;
+            }
+            .indicator {
+                width: 8px;
+                height: 8px;
+            }
+            /* 响应式适配年度词语 */
+            .year-word-main {
+                font-size: 48px;
+                letter-spacing: 4px;
+            }
+            /* 响应式适配成长模块 */
+            .growth-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .growth-img {
+                flex: 0 0 150px;
+                width: 100%;
+                height: 150px;
+            }
+            /* 响应式适配功能栏Q */
+            .message-section {
+                padding: 20px 15px;
+            }
+            .message-content {
+                font-size: 14px;
+                line-height: 1.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景音乐（全程单曲循环，优化自动播放） -->
+    <audio id="bgMusic" loop autoplay muted>
+        <!-- 替换为你的音乐文件链接，支持mp3/ogg等格式 -->
+        <source src="music/zhidaoninjianglin.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放
+    </audio>
+
+    <!-- 开场动画容器 -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-text" id="splashText1">你好，亲爱的灿，欢迎观看我们的第一年。</div>
+        <div class="splash-text" id="splashText2">这一年，第一年，每一年。</div>
+    </div>
+
+    <!-- 主界面容器 -->
+    <div class="report-container">
+        <div class="top-decor"></div>
+
+        <!-- 新增：黑胶唱片 + 歌曲名称 -->
+        <div class="vinyl-container">
+            <div class="vinyl-record"></div>
+            <div class="vinyl-text">阿肆-直到你降临</div>
+        </div>
+        
+        <!-- 顶部主标题 -->
+        <div class="new-main-title">
+            <h2>这一年，第一年，每一年。</h2>
+            <p class="desc-text">今天是2026年2月22日，距离2025年2月22日已过去整整365天，回顾过去的这一年，世界跌入冷战后最动荡的周期。全球和平指数跌至20年新低，多国政坛剧变、极右翼势力抬头，贸易壁垒与技术封锁层层高筑，混合战争成为常态，多边治理体系近乎失灵，人类站在秩序重构的十字路口。科技赛道则在撕裂中狂飙突进，AI规模化落地重塑全球产业，脑机接口、量子计算、人造太阳接连拿下里程碑，我们主动，也被迫的进入到生产力恶性通胀的第四次工业革命。这一年，动荡是底色，但在被无数不确定包裹的世界里，我遇到了唯一确定的你。窗外下着鹅毛大雪，但我们坐在屋内享受这种安全屋的，确定的温暖，听着屋外的狂风吹起象征春天来临的笛子。</p>
+        </div>
+
+        <div class="main-title">
+            <h1>松和灿2025年恋爱报告</h1>
+            <p>专属我们的甜蜜时光印记</p>
+        </div>
+
+        <!-- 轮播L（修改：拓展至17张图片） -->
+        <div class="carousel-container" id="carousel">
+            <div class="carousel-wrapper" id="carouselWrapper">
+                <!-- 第1张图片 -->
+                <div class="carousel-item">
+                    <a href="page1.html" target="_self">
+                        <img src="images/travel/澳门.jpg" alt="甜蜜瞬间1">
+                    </a>
+                </div>
+                <!-- 第2张图片 -->
+                <div class="carousel-item">
+                    <a href="page2.html" target="_self">
+                        <img src="images/travel/香港1.jpg" alt="甜蜜瞬间2">
+                    </a>
+                </div>
+                <!-- 第3张图片 -->
+                <div class="carousel-item">
+                    <a href="page3.html" target="_self">
+                        <img src="images/travel/香港2.jpg" alt="甜蜜瞬间3">
+                    </a>
+                </div>
+                <!-- 第4张图片 -->
+                <div class="carousel-item">
+                    <a href="page4.html" target="_self">
+                        <img src="images/travel/南京1.jpg" alt="甜蜜瞬间4">
+                    </a>
+                </div>
+                <!-- 第5张图片 -->
+                <div class="carousel-item">
+                    <a href="page5.html" target="_self">
+                        <img src="images/travel/南京2.jpg" alt="甜蜜瞬间5">
+                    </a>
+                </div>
+                <!-- 第6张图片 -->
+                <div class="carousel-item">
+                    <a href="page6.html" target="_self">
+                        <img src="images/travel/广州1.jpg" alt="甜蜜瞬间6">
+                    </a>
+                </div>
+                <!-- 第7张图片 -->
+                <div class="carousel-item">
+                    <a href="page7.html" target="_self">
+                        <img src="images/travel/广州2.jpg" alt="甜蜜瞬间7">
+                    </a>
+                </div>
+                <!-- 第8张图片 -->
+                <div class="carousel-item">
+                    <a href="page8.html" target="_self">
+                        <img src="images/travel/郴州1.jpg" alt="甜蜜瞬间8">
+                    </a>
+                </div>
+                <!-- 第9张图片 -->
+                <div class="carousel-item">
+                    <a href="page9.html" target="_self">
+                        <img src="images/travel/郴州2.jpg" alt="甜蜜瞬间9">
+                    </a>
+                </div>
+                <!-- 第10张图片 -->
+                <div class="carousel-item">
+                    <a href="page10.html" target="_self">
+                        <img src="images/travel/郴州3.jpg" alt="甜蜜瞬间10">
+                    </a>
+                </div>
+                <!-- 第11张图片 -->
+                <div class="carousel-item">
+                    <a href="page11.html" target="_self">
+                        <img src="images/travel/郴州4.jpg" alt="甜蜜瞬间11">
+                    </a>
+                </div>
+                <!-- 第12张图片 -->
+                <div class="carousel-item">
+                    <a href="page12.html" target="_self">
+                        <img src="images/travel/北京.jpg" alt="甜蜜瞬间12">
+                    </a>
+                </div>
+                <!-- 第13张图片 -->
+                <div class="carousel-item">
+                    <a href="page13.html" target="_self">
+                        <img src="images/travel/深圳.jpg" alt="甜蜜瞬间13">
+                    </a>
+                </div>
+                <!-- 第14张图片 -->
+                <div class="carousel-item">
+                    <a href="page14.html" target="_self">
+                        <img src="images/travel/南昌.jpg" alt="甜蜜瞬间14">
+                    </a>
+                </div>
+                <!-- 第15张图片 -->
+                <div class="carousel-item">
+                    <a href="page15.html" target="_self">
+                        <img src="images/travel/长沙.jpg" alt="甜蜜瞬间15">
+                    </a>
+                </div>
+                <!-- 第16张图片 -->
+                <div class="carousel-item">
+                    <a href="page16.html" target="_self">
+                        <img src="images/travel/景德镇.jpg" alt="甜蜜瞬间16">
+                    </a>
+                </div>
+                <!-- 第17张图片 -->
+                <div class="carousel-item">
+                    <a href="page17.html" target="_self">
+                        <img src="images/travel/婺源.jpg" alt="甜蜜瞬间17">
+                    </a>
+                </div>
+            </div>
+            <button class="carousel-btn prev-btn" id="prevBtn">←</button>
+            <button class="carousel-btn next-btn" id="nextBtn">→</button>
+            <div class="carousel-indicators" id="indicators">
+                <div class="indicator active" data-index="0"></div>
+                <div class="indicator" data-index="1"></div>
+                <div class="indicator" data-index="2"></div>
+                <div class="indicator" data-index="3"></div>
+                <div class="indicator" data-index="4"></div>
+                <div class="indicator" data-index="5"></div>
+                <div class="indicator" data-index="6"></div>
+                <div class="indicator" data-index="7"></div>
+                <div class="indicator" data-index="8"></div>
+                <div class="indicator" data-index="9"></div>
+                <div class="indicator" data-index="10"></div>
+                <div class="indicator" data-index="11"></div>
+                <div class="indicator" data-index="12"></div>
+                <div class="indicator" data-index="13"></div>
+                <div class="indicator" data-index="14"></div>
+                <div class="indicator" data-index="15"></div>
+                <div class="indicator" data-index="16"></div>
+            </div>
+        </div>
+
+        <!-- 核心数据卡片 -->
+        <div class="data-card core-data">
+            <p class="desc">今年你们一起度过了</p>
+            <div class="num">8740 小时</div>
+            <p class="desc">陪你度过了365个日夜</p>
+        </div>
+
+        <!-- 多维度数据卡片（修改：替换数值） -->
+        <div class="data-card multi-data">
+            <div class="data-item">
+                <p class="item-title">你们一起去过的远方</p>
+                <p class="item-value">11个</p>
+                <span class="item-tag">目标是点亮世界！</span>
+            </div>
+            <div class="data-item">
+                <p class="item-title">互相认识的朋友</p>
+                <p class="item-value">20 个</p>
+                <span class="item-tag">融入彼此的世界</span>
+            </div>
+            <div class="data-item">
+                <p class="item-title">最佳地点</p>
+                <p class="item-value">中国澳门</p>
+                <span class="item-tag">定情之地，必须当选</span>
+            </div>
+        </div>
+
+        <!-- 新增：功能栏T - 年度词语 -->
+        <h2 class="func-title">这一年，我们的年度词语</h2>
+        <div class="year-word-card">
+            <p class="year-word-title">属于我们2025的关键词</p>
+            <div class="year-word-main">在一起</div>
+        </div>
+
+        <!-- 功能栏P（修改：删除轮播，改为4张图片网格） -->
+        <h2 class="func-title">这一年，我们一起听过的歌</h2>
+        <div class="img-grid-container">
+            <!-- 第1张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/歌曲1.jpg" alt="歌曲1">
+            </div>
+            <!-- 第2张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/歌曲2.jpg" alt="歌曲2">
+            </div>
+            <!-- 第3张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/歌曲3.png" alt="歌曲3">
+            </div>
+            <!-- 第4张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/歌曲4.jpg" alt="歌曲4">
+            </div>
+        </div>
+
+        <!-- 功能栏M（重构：10张图片网格，2列5行） -->
+        <h2 class="func-title">这一年，我们的美好瞬间</h2>
+        <div class="img-grid-container">
+            <!-- 第1张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间1.jpg" alt="美好瞬间1">
+            </div>
+            <!-- 第2张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间2.jpg" alt="美好瞬间2">
+            </div>
+            <!-- 第3张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间3.jpg" alt="美好瞬间3">
+            </div>
+            <!-- 第4张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间4.jpg" alt="美好瞬间4">
+            </div>
+            <!-- 第5张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间5.jpg" alt="美好瞬间5">
+            </div>
+            <!-- 第6张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间6.jpg" alt="美好瞬间6">
+            </div>
+            <!-- 第7张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间7.jpg" alt="美好瞬间7">
+            </div>
+            <!-- 第8张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间8.jpg" alt="美好瞬间8">
+            </div>
+            <!-- 第9张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间9.jpg" alt="美好瞬间9">
+            </div>
+            <!-- 第10张 -->
+            <div class="img-grid-item">
+                <img src="images/travel/瞬间10.jpg" alt="美好瞬间10">
+            </div>
+        </div>
+
+        <!-- 功能栏D（修改：标题替换，删除轮播，改为D1/D2左图右文本） -->
+        <h2 class="func-title">这一年，我们一起经历的成长</h2>
+        <div class="growth-section">
+            <!-- D1 -->
+            <div class="growth-item">
+                <div class="growth-img">
+                    <img src="images/travel/人像1.jpg" alt="成长1">
+                </div>
+                <div class="growth-text">
+                    <h3>灿灿的这一年</h3>
+                    <p>顺利从澳门科技大学毕业，成为了一名传媒Master；顺利成为一名人民教师；从校园到校园，但身份华丽转变。</p>
+                </div>
+            </div>
+            <!-- D2 -->
+            <div class="growth-item">
+                <div class="growth-img">
+                    <img src="images/travel/人像2.png" alt="成长2">
+                </div>
+                <div class="growth-text">
+                    <h3>松松的这一年</h3>
+                    <p>虽然下了基层，但认识的人更多了，工作能力也更强了，履历越来越丰富，见过的大世面也越来越多。捷径就是走最远的路。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能栏O（修改：保留框架，删除地图，替换为单张图片） -->
+        <h2 class="func-title">这一年，我们的足迹</h2>
+        <div class="map-container">
+            <img src="images/travel/足迹.jpg" alt="我们的足迹图片" class="map-replace-img">
+        </div>
+
+        <!-- 功能栏Y - 热词云 -->
+        <h2 class="func-title">这一年，我们的热词</h2>
+        <div class="word-cloud-container">
+            <img src="images/travel/云图2.jpg" 
+                 alt="我们的热词云" 
+                 class="word-cloud-img">
+        </div>
+
+        <!-- 新增：功能栏Q - 向下一年说些什么吧 -->
+        <h2 class="func-title">向下一年说些什么吧</h2>
+        <div class="message-section">
+            <div class="message-content">
+                观众朋友们，松和灿的第一年已经接近尾声了，从赣鄱到岭南，我们经历了太多的冒险，希望松和灿的下一年，继续把生命中经历的所有美好和幸福，化作对抗这个充满不确定性的真实世界的英雄主义！观众朋友们，让我们在亚庇，在美丽的太平洋海岛，再会！
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>松和灿 © 2025 年度恋爱报告</p>
+            <p>时光统计截止至 2026.2.22</p>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script>
+        // 开场动画逻辑
+        const splashScreen = document.getElementById('splashScreen');
+        const splashText1 = document.getElementById('splashText1');
+        const splashText2 = document.getElementById('splashText2');
+        
+        const navType = performance.navigation.type;
+        if (navType === 0 || navType === 1) { 
+            setTimeout(() => {
+                splashText1.style.opacity = 1;
+                setTimeout(() => {
+                    splashText1.style.opacity = 0;
+                    setTimeout(() => {
+                        splashText2.style.opacity = 1;
+                        setTimeout(() => {
+                            splashText2.style.opacity = 0;
+                            setTimeout(() => {
+                                splashScreen.classList.add('splash-hidden');
+                            }, 1000);
+                        }, 5000);
+                    }, 1000);
+                }, 5000);
+            }, 500);
+        } else {
+            splashScreen.classList.add('splash-hidden');
+        }
+
+        // 轮播L脚本（适配17张图片）
+        const carouselWrapper = document.getElementById('carouselWrapper');
+        const indicators = document.querySelectorAll('.indicator');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+        const itemCount = indicators.length; // 自动适配17个指示器
+        const itemWidth = 100;
+
+        function updateIndicators() {
+            indicators.forEach((ind, index) => {
+                ind.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function moveToIndex(index) {
+            currentIndex = index;
+            if (currentIndex < 0) currentIndex = itemCount - 1;
+            if (currentIndex >= itemCount) currentIndex = 0;
+            carouselWrapper.style.transform = `translateX(-${currentIndex * itemWidth}%)`;
+            updateIndicators();
+        }
+
+        prevBtn.addEventListener('click', () => moveToIndex(currentIndex - 1));
+        nextBtn.addEventListener('click', () => moveToIndex(currentIndex + 1));
+        indicators.forEach((ind, index) => {
+            ind.addEventListener('click', () => moveToIndex(index));
+        });
+        setInterval(() => {
+            moveToIndex(currentIndex + 1);
+        }, 3000);
+
+        // 音乐播放优化：解决自动播放限制，静音自动播放后取消静音
+        const bgMusic = document.getElementById('bgMusic');
+        // 页面加载后尝试取消静音
+        window.addEventListener('load', () => {
+            // 先确保音乐处于播放状态
+            bgMusic.play().then(() => {
+                // 取消静音
+                bgMusic.muted = false;
+            }).catch(err => {
+                console.log('自动播放需要用户交互，点击页面任意位置播放:', err);
+                // 备用方案：点击页面任意位置播放
+                document.addEventListener('click', () => {
+                    bgMusic.muted = false;
+                    bgMusic.play();
+                }, { once: true });
+            });
+        });
+
+        // 移除原P/M/D轮播脚本（因重构不再需要）
+    </script>
+</body>
+</html>
